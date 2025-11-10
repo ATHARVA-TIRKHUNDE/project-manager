@@ -1,0 +1,6 @@
+# The file containing sensitive environment variables (database keys, secrets)
+.env
+
+# Node dependencies
+/node_modules
+
