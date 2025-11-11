@@ -5,6 +5,7 @@ import { asyncHandler } from "../utils/async-handler.js";
 import { sendEmail } from "../utils/mail.js";
 import jwt from "jsonwebtoken";
 import { genrateAccessAndRefreshToken, isEmailId } from "../utils/helper.js";
+import crypto from "crypto"
 
 const registerUser = asyncHandler(async (req, res) => {
   const { email, username, password, role } = req.body;
@@ -157,7 +158,49 @@ const getCurrentUser = asyncHandler( async (req, res) => {
 });
 
 const verifyEmail = asyncHandler( async(req, res) => {
-  // code
+  const verificationToken = req.params ;
+
+  if( !verificationToken ) {
+    throw new ApiError(
+      400,
+      "Email verification token is missing",
+    )
+  }
+
+  let hashedToken = crypto
+    .createHash("sha256")
+    .update(verificationToken)
+    .digest("hex");
+
+  const user = await User.findOne({
+    emailVerificationToken : hashedToken,
+    emailVerificationExpiry : { $gt : Date.now() }, 
+  });
+
+  if( !user ) {
+    throw new ApiError(
+      400,
+      "Token is invalid or expired",
+    )
+  };
+
+  user.emailVerificationToken = undefined ;
+  user.emailVerificationExpiry = undefined ;
+
+  user.isEmailVerified = true ;
+
+  await User.save({validateBeforeSave: false}) ;
+
+  return res.status(200).json(
+    new ApiResponse(
+      200,
+      {
+        isEmailVerified: true,
+      },
+      "Email verified sucessfully",
+    )
+  )
+
 });
 
 const resendEmailVerification = asyncHandler( async(req, res) => {
