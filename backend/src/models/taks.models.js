@@ -1,5 +1,5 @@
-import mongoose, { Schema } from "mongoose";
-import { AvailableTaskStatuses, TaskStatusEnum } from "../utils/constants.js";
+import mongoose, { Schema } from 'mongoose'
+import { AvailableTaskStatuses, TaskStatusEnum } from '../utils/constants.js'
 
 const taskSchema = new Schema(
   {
@@ -11,20 +11,20 @@ const taskSchema = new Schema(
     description: {
       type: String,
       trim: true,
-      maxLength: [1000, "Description cannot be more than 2000 characters"],
+      maxLength: [1000, 'Description cannot be more than 2000 characters'],
     },
     project: {
       type: Schema.Types.ObjectId,
-      ref: "Project",
+      ref: 'Project',
       required: true,
     },
     assignedTo: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
     },
     assignedBy: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
     },
     status: {
       type: String,
@@ -42,7 +42,7 @@ const taskSchema = new Schema(
       default: [],
     },
   },
-  { timestamps: true },
-);
+  { timestamps: true }
+)
 
-export const Taks = mongoose.model("Task", taskSchema);
+export const Taks = mongoose.model('Task', taskSchema)

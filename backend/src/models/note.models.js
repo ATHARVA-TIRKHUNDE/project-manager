@@ -1,15 +1,15 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema } from 'mongoose'
 
 const projectNoteSchema = new Schema(
   {
     project: {
       type: Schema.Types.ObjectId,
-      ref: "Project",
+      ref: 'Project',
       required: true,
     },
     createdBy: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
       required: true,
     },
     content: {
@@ -17,7 +17,7 @@ const projectNoteSchema = new Schema(
       required: true,
     },
   },
-  { timestamps: true },
-);
+  { timestamps: true }
+)
 
-export const ProjectNote = mongoose.model("ProjectNote", projectNoteSchema);
+export const ProjectNote = mongoose.model('ProjectNote', projectNoteSchema)

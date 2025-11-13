@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema } from 'mongoose'
 
 const projectSchema = new Schema(
   {
@@ -13,11 +13,11 @@ const projectSchema = new Schema(
     },
     createdBy: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
       required: true,
     },
   },
-  { timestamps: true },
-);
+  { timestamps: true }
+)
 
-export const Project = mongoose.model("Project", projectSchema);
+export const Project = mongoose.model('Project', projectSchema)

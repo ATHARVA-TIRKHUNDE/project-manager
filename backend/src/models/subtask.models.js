@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema } from 'mongoose'
 
 const subTaskSchema = new Schema(
   {
@@ -9,7 +9,7 @@ const subTaskSchema = new Schema(
     },
     task: {
       type: Schema.Types.ObjectId,
-      ref: "Task",
+      ref: 'Task',
       required: true,
     },
     isCompleted: {
@@ -18,11 +18,11 @@ const subTaskSchema = new Schema(
     },
     createdBy: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
       required: true,
     },
   },
-  { timestamps: true },
-);
+  { timestamps: true }
+)
 
-export const Subtask = mongoose.model("Subtask", subTaskSchema);
+export const Subtask = mongoose.model('Subtask', subTaskSchema)
