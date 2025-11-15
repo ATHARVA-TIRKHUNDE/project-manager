@@ -47,18 +47,14 @@ const userLoginValidator = () => {
       .notEmpty()
       .withMessage('Login ID (Username or Email) is required.')
       .custom((value) => {
-        // Check if the value is a valid email using express-validator's built-in isEmail()
         const isEmail = body('email')
           .isEmail()
           .run({ body: { email: value } })
           .then((result) => result.array().length === 0)
 
-        // Check if the value is a valid username using the regex defined above
         const isUsername = usernameRegex.test(value)
 
-        // If it's neither a valid email NOR a valid username, throw an error.
         if (!isEmail && !isUsername) {
-          // This message is only for formatting errors, not for checking if the user exists
           throw new Error(
             'Login ID must be a valid email or a valid username (3-20 characters, alphanumeric).'
           )
@@ -91,11 +87,35 @@ const userResetForgotPasswordValidator = () => {
   return [body('newPassword').notEmpty().withMessage('Password is required')]
 }
 
+const createProjectValidator = () => {
+  return [
+    body('name').notEmpty().withMessage('Name is required'),
+    body('description').optional(),
+  ]
+}
+
+const addMembertoProjectValidator = () => {
+  return [
+    body('email')
+      .trim()
+      .notEmpty()
+      .withMessage('Email is required')
+      .isEmail()
+      .withMessage('Email is invalid'),
+    body('role')
+      .notEmpty()
+      .withMessage('Role is required')
+      .isIn(AvailableUserRole)
+      .withMessage('Role is invalid'),
+  ]
+}
+
 export {
   userLoginValidator,
   userRegisterValidator,
   userForgotPasswordValidator,
   userResetForgotPasswordValidator,
   userChangeCurrentPasswordValidator,
+  createProjectValidator,
+  addMembertoProjectValidator,
 }
-
